@@ -1,0 +1,46 @@
+version: '3.4'
+
+services:
+  
+  frontend:
+    build: nutrition-frontend/
+    restart: always
+    container_name: nhaa-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+  
+  backend:
+    build: nutrition-backend/
+    restart: always
+    container_name: nhaa-backend
+    depends_on:
+      - db
+      - fhir
+    
+  db:
+    image: mysql/mysql-server:5.7
+    restart: always
+    container_name: nhaa-db
+    ports:
+      - "3306:3306"
+    volumes:
+      - nhaa-db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=myrootpassword
+      - MYSQL_DATABASE=nutrition_health_analysis
+      - MYSQL_USER=nhaa_service
+      - MYSQL_PASSWORD=nhaaservicepassword
+
+  fhir:
+    image: teamh2o/hapi-fhir-jpaserver-example:latest
+    restart: always
+    container_name: nhaa-fhir
+    environment:
+      JAVA_OPTIONS: "-Djetty.port=8081"
+    ports:
+     - "8081:8081"
+
+volumes:
+  nhaa-db:

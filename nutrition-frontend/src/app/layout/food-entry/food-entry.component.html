@@ -1,0 +1,81 @@
+<div class="container">
+  <app-page-header [heading]="'Food Entry'" [icon]="'fa-cutlery'"></app-page-header>
+  <div class="row">
+    <div class="col">
+      <div id="step1" *ngIf="step === 1">
+        <div class="row">
+          <div class="col-md-6 offset-md-3">
+            <div class="list-group">
+              <a class="list-group-item list-group-item-action" (click)="addFoodManually()">Add a food entry manually</a>
+              <a class="list-group-item list-group-item-action" (click)="searchForAFood()">Search for a food item</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="step2" *ngIf="step === 2">
+
+        <form>
+          <div class="form-group">
+            <label for="search">Search for a food</label>
+            <input type="search" class="form-control" placeholder="Enter search string" name="search" [formControl]="searchField">
+          </div>
+        </form>
+
+        <div class="text-center">
+          <p class="lead" *ngIf="loading">Loading...</p>
+        </div>
+
+        <div class="list-group pb-3">
+          <a class="list-group-item list-group-item-action" *ngFor="let food of results | async | slice: 0:10" (click)="selectFood(food)">
+            {{ food.name }}
+          </a>
+        </div>
+
+        <div class="form-group">
+          <button class="btn btn-secondary" (click)="back()">Back</button>
+        </div>
+      </div>
+
+      <div id="step3" *ngIf="step === 3">
+
+        <div class="text-center">
+          <p class="lead" *ngIf="loading">Loading...</p>
+        </div>
+
+        <form name="form" #f="ngForm" *ngIf="!loading">
+          <div class="form-group">
+            <label for="foodName">Food Name</label>
+            <input type="text" class="form-control" name="foodName" [(ngModel)]="food.name" #foodName="ngModel" required />
+          </div>
+          <div class="form-row pb-3" *ngFor="let nutrient of food.nutrients">
+            <div class="col-md-10">
+              <label for="{{nutrient.name}}-value">{{nutrient.name}}</label>
+              <input type="number" class="form-control" name="{{nutrient.name}}-value" [(ngModel)]="nutrient.value" />
+            </div>
+            <div class="col-md-2">
+              <label for="{{nutrient.name}}-units">Units</label>
+              <input type="text" class="form-control" name="{{nutrient.name}}-units" [(ngModel)]="nutrient.units" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="servings">Servings</label>
+            <input type="number" class="form-control" name="servings" [(ngModel)]="food.servings" />
+          </div>
+          <div class="form-group">
+            <label for="date">Consumption Date</label>
+            <p-calendar [(ngModel)]="food.consumptionDate" name="date" inputId="date" showTime="true" hourFormat="12"></p-calendar>
+          </div>
+          <div class="form-group">
+            <label for="notes">Notes</label>
+            <input type="text" class="form-control" name="notes" [(ngModel)]="food.notes" />
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary" (click)="addFoodEntry()">Save Food Entry</button>
+            <button class="btn btn-secondary" (click)="back()">Back</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>

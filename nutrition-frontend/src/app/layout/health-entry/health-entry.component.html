@@ -1,0 +1,40 @@
+<div class="container">
+  <app-page-header [heading]="'Health Entry'" [icon]="'fa-stethoscope'"></app-page-header>
+  <div class="row">
+    <div class="col-md-6">
+      <form>
+        <div class="form-group">
+          <label for="entryType">Entry Type</label>
+          <select class="form-control" name="entryType" [(ngModel)]="selectedType" (ngModelChange)="onChangeEntryType($event)">
+            <option [ngValue]="null" disabled>-- Select --</option>
+            <option *ngFor="let entry of availableTypes" [ngValue]="entry">{{entry}}</option>
+          </select>
+        </div>
+        <div class="form-row pb-3">
+          <div class="col">
+            <label for="value">Value</label>
+            <input type="number" class="form-control" name="value" [(ngModel)]="entry.value">
+          </div>
+          <div class="col">
+            <label for="units">Units</label>
+            <select class="form-control" name="units" [(ngModel)]="entry.units">
+              <option [ngValue]="null" disabled>-- Select --</option>
+              <option *ngFor="let unit of availableUnits$ | async">{{unit}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="date">Entry Date</label>
+          <p-calendar appendTo="body" [(ngModel)]="entry.date" name="date" inputId="date" showTime="true" hourFormat="12"></p-calendar>
+        </div>
+        <div class="form-group">
+          <label for="notes">Notes</label>
+          <input type="text" class="form-control" name="notes" [(ngModel)]="entry.notes">
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit" (click)="addEntry()">Add Entry</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

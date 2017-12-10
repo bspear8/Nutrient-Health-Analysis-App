@@ -1,0 +1,84 @@
+<div class="container">
+  <app-page-header [heading]="'Health Goals'" [icon]="'fa-bullseye'"></app-page-header>
+  <div class="row">
+    <div class="col-md-6">
+      <h4>Add a Goal</h4>
+      <form>
+        <div class="form-group">
+          <label for="goalName">Goal Name</label>
+          <input type="string" class="form-control" name="goalName" [(ngModel)]="goal.name">
+        </div>
+
+        <div class="form-group">
+          <label for="entryType">Goal Entry Type</label>
+          <select class="form-control" name="entryType" [(ngModel)]="selectedEntryType" (ngModelChange)="onChangeGoalEntryType($event)">
+            <option [ngValue]="null" disabled>-- Select --</option>
+            <option *ngFor="let entry of availableEntryTypes" [ngValue]="entry">{{entry}}</option>
+          </select>
+        </div>
+
+        <div class="form-row pb-3">
+          <div class="col">
+            <label for="value">Value</label>
+            <input type="number" class="form-control" name="value" [(ngModel)]="goal.value">
+          </div>
+          <div class="col">
+            <label for="units">Units</label>
+            <select class="form-control" name="units" [(ngModel)]="goal.units">
+              <option [ngValue]="null" disabled>-- Select --</option>
+              <option *ngFor="let unit of availableUnits$ | async">{{unit}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="goalType">Goal Range Type</label>
+          <select class="form-control" name="goalType" [(ngModel)]="goal.goalType">
+            <option [ngValue]="null" disabled>-- Select --</option>
+            <option *ngFor="let goalType of availableGoalRangeTypes">{{goalType}}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="timePeriod">Goal Time Period</label>
+          <select class="form-control" name="timePeriod" [(ngModel)]="goal.timePeriod">
+              <option [ngValue]="null" disabled>-- Select --</option>
+              <option *ngFor="let timePeriod of availableGoalTimePeriods">{{timePeriod}}</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="date">Goal Target Date</label>
+          <div class="input-group">
+            <p-calendar appendTo="body" [(ngModel)]="goal.date" name="date" inputId="date" showTime="true" hourFormat="12"></p-calendar>
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit" (click)="saveGoal()">Save Goal</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <h4>Goals</h4>
+      <div class="list-group pb-3" *ngIf="!loading">
+        <a class="list-group-item list-group-item-action" *ngFor="let goalState of goals">
+          <div class="pb-1">
+            <span>{{ goalState.goal.entryType }} - {{goalState.goal.name}} - {{ goalState.goal.goalType | lowercase }} {{ goalState.goal.value }} {{ goalState.goal.units }} by {{ goalState.goal.date | date: 'MM-dd-yyyy hh:mm a'}}</span>
+            <span *ngIf="goalState.state === 'Unmet'" class="badge badge-warning pull-right">Unmet</span>
+            <span *ngIf="goalState.state === 'Met'" class="badge badge-success pull-right">Met!</span>
+            <span *ngIf="goalState.state === 'Unknown'" class="badge badge-info pull-right">Unknown</span>
+          </div>
+          <div>
+            <i class="fa fa-pencil pull-right pointer" (click)="editGoal(goalState.goal)"></i>
+            <i class="fa fa-trash-o pull-right pointer" (click)="deleteGoal(goalState.goal)"></i>
+          </div>
+        </a>
+      </div>
+      <div class="spinner" *ngIf="loading">
+          <div class="bounce1"></div>
+          <div class="bounce2"></div>
+          <div class="bounce3"></div>
+        </div>
+    </div>
+  </div>
+</div>

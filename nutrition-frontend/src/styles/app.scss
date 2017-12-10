@@ -1,0 +1,9 @@
+/* You can add global styles to this file, and also import other style files */
+$fa-font-path: '../../node_modules/font-awesome/fonts';
+@import '~font-awesome/scss/font-awesome';
+@import '~bootstrap/scss/bootstrap';
+@import "spinner";
+@import "utils";
+@import "responsive";
+@import '~primeng/resources/themes/omega/theme.css';
+@import '~primeng/resources/primeng.min.css';

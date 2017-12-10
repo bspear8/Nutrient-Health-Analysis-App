@@ -1,0 +1,72 @@
+<div class="container">
+  <app-page-header [heading]="'Health Alerts'" [icon]="'fa-bell-o'"></app-page-header>
+  <div class="row">
+    <div class="col-md-6">
+      <h4>Add an Alert</h4>
+      <form>
+        <div class="form-group">
+          <label for="entryType">Entry Type</label>
+          <select class="form-control" name="entryType" [(ngModel)]="selectedEntryType" (ngModelChange)="onChangeAlertEntryType($event)">
+            <option [ngValue]="null" disabled>-- Select --</option>
+            <option *ngFor="let entry of availableEntryTypes" [ngValue]="entry">{{entry}}</option>
+          </select>
+        </div>
+        <div class="form-row pb-3">
+          <div class="col">
+            <label for="value">Value</label>
+            <input type="number" class="form-control" name="value" [(ngModel)]="alert.value">
+          </div>
+          <div class="col">
+            <label for="units">Units</label>
+            <select class="form-control" name="units" [(ngModel)]="alert.units">
+              <option [ngValue]="null" disabled>-- Select --</option>
+              <option *ngFor="let unit of availableUnits$ | async">{{unit}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="units">Alert Range Type</label>
+          <select class="form-control" name="alertType" [(ngModel)]="alert.alertType">
+            <option [ngValue]="null" disabled>-- Select --</option>
+            <option *ngFor="let alertType of availableAlertRangeTypes">{{alertType}}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+            <label for="timePeriod">Alert Time Period</label>
+            <select class="form-control" name="timePeriod" [(ngModel)]="alert.timePeriod">
+              <option [ngValue]="null" disabled>-- Select --</option>
+              <option *ngFor="let timePeriod of availableAlertTimePeriods">{{timePeriod}}</option>
+            </select>
+          </div>
+          
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit" (click)="saveAlert()">Save Alert</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <h4>Alerts</h4>
+      <div class="list-group pb-3" *ngIf="!loading">
+        <a class="list-group-item list-group-item-action" *ngFor="let alertState of alerts">
+          <div class="pb-1">
+            <span>{{ alertState.alert.entryType }} {{ alertState.alert.alertType }} {{ alertState.alert.value }} {{ alertState.alert.units }}</span>
+            <span *ngIf="alertState.state === 'Acceptable Range'" class="badge badge-success pull-right">In Range</span>
+            <span *ngIf="alertState.state === 'Out of Range'" class="badge badge-danger pull-right">Out of Range!</span>
+            <span *ngIf="alertState.state === 'Unknown'" class="badge badge-info pull-right">Unknown</span>
+          </div>
+          <div>
+            <i class="fa fa-pencil pull-right pointer" (click)="editAlert(alertState.alert)"></i>
+            <i class="fa fa-trash-o pull-right pointer" (click)="deleteAlert(alertState.alert)"></i>
+          </div>
+        </a>
+      </div>
+      <div class="spinner" *ngIf="loading">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+    </div>
+  </div>
+</div>

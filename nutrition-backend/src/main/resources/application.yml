@@ -1,0 +1,58 @@
+security:
+  oauth2:
+    client:
+      client-id: acme
+      client-secret: acmesecret
+      scope: read,write
+      auto-approve-scopes: '.*'
+
+spring:
+  datasource:
+    url: jdbc:mysql://db:3306/nutrition_health_analysis
+    username: nhaa_service
+    password: nhaaservicepassword
+    driver-class-name: com.mysql.jdbc.Driver
+    tomcat:
+      max-wait: 20000
+      max-active: 50
+      max-idle: 20
+      min-idle: 15
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        id:
+          new_generator_mappings: false
+        format_sql: true
+
+app:
+  secret: mysecret
+  token-validity-in-seconds: 2592000
+  swagger-base: /api
+  fhir-server: http://fhir:8081/baseDstu3
+  # fhir-server: https://fhirtesting.hdap.gatech.edu/hapi-fhir-jpaserver-example/baseDstu3
+  # fhir-server: https://fhirtest.uhn.ca/baseDstu3
+---
+
+spring:
+  profiles: local
+  datasource:
+      url: jdbc:mysql://localhost:3306/nutrition_health_analysis
+app:
+  swagger-base: /
+  fhir-server: http://localhost:8081/baseDstu3
+
+---
+
+usda:
+  api:
+    host: api.nal.usda.gov/ndb
+    key: nELeuiQYn8SgYIkRHDWdqpoydO2eYBfdcuzI2xIF
+
+logging:
+  level:
+    org.springframework.security: DEBUG

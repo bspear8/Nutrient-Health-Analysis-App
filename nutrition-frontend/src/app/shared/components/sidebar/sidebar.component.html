@@ -1,0 +1,28 @@
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
+  <ul class="list-group">
+    <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i class="fa fa-fw fa-dashboard"></i>&nbsp;Dashboard
+    </a>
+    <a [routerLink]="['/food-entry']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i class="fa fa-fw fa-cutlery"></i>&nbsp;Food Entry
+    </a>
+    <a [routerLink]="['/health-entry']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i class="fa fa-fw fa-stethoscope"></i>&nbsp;Health Entry
+    </a>
+    <a [routerLink]="['/history']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i class="fa fa-fw fa-table"></i>&nbsp;History
+    </a>
+    <a [routerLink]="['/health-goals']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i class="fa fa-fw fa-bullseye"></i>&nbsp;Health Goals
+    </a>
+    <a [routerLink]="['/health-alerts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i class="fa fa-fw fa-bell-o"></i>&nbsp;Health Alerts
+    </a>
+    <a [routerLink]="['/profile']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i class="fa fa-fw fa-user-o"></i>&nbsp;Profile
+    </a>
+    <a [routerLink]="['/login']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i class="fa fa-fw fa-sign-out"></i>&nbsp;Log Out
+    </a>
+  </ul>
+</nav>

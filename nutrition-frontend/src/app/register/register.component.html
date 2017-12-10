@@ -1,0 +1,51 @@
+<div class="login-page">
+  <div class="row">
+    <div class="col-md-6 offset-md-3 pt-3">
+      <img class="img-fluid mx-auto d-block" src="assets/images/logo.png" width="200px" />
+      <h1 class="text-center">Nutrient Health Analysis</h1>
+      <app-alert></app-alert>
+      <div class="box box-container">
+        <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
+          <div class="form-content">
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !firstName.valid }">
+              <label for="firstName">First Name</label>
+              <input type="text" class="form-control" name="firstName" [(ngModel)]="model.firstName" #firstName="ngModel" required />
+              <div *ngIf="f.submitted && !firstName.valid" class="help-block text-danger">
+                <i class="fa fa-close"></i>
+                <span>First Name is required</span>
+              </div>
+            </div>
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !lastName.valid }">
+              <label for="lastName">Last Name</label>
+              <input type="text" class="form-control" name="lastName" [(ngModel)]="model.lastName" #lastName="ngModel" required />
+              <div *ngIf="f.submitted && !lastName.valid" class="help-block text-danger">
+                <i class="fa fa-close"></i>
+                <span>Last Name is required</span>
+              </div>
+            </div>
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
+              <label for="email">Email</label>
+              <input type="text" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel" required />
+              <div *ngIf="f.submitted && !email.valid" class="help-block text-danger">
+                <i class="fa fa-close"></i>
+                <span>Email is required</span>
+              </div>
+            </div>
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+              <div *ngIf="f.submitted && !password.valid" class="help-block text-danger">
+                <i class="fa fa-close"></i>
+                <span>Password is required</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <button [disabled]="loading" class="btn btn-primary btn-block">Register</button>
+              <a [routerLink]="['/login']" class="btn btn-link btn-block">Already Have an Account?</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

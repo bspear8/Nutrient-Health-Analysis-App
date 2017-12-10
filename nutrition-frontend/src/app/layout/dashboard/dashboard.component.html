@@ -1,0 +1,92 @@
+<div class="container">
+  <h2 class="text-muted">Dashboard</h2>
+  <div class="row">
+
+    <div class="card col-md-3">
+      <div class="card-body">
+        <div class="rotate">
+          <i class="fa fa-heartbeat fa-3x"></i>
+        </div>
+        <h6 class="text-uppercase">Weight</h6>
+        <h1 class="display-4">{{avgWeight}}</h1>
+        <h6>kg</h6>
+      </div>
+    </div>
+    <div class="card col-md-3">
+      <div class="card-body">
+        <div class="rotate">
+          <i class="fa fa-heartbeat fa-3x"></i>
+        </div>
+        <h6 class="text-uppercase">Glucose</h6>
+        <h1 class="display-4">{{avgGlucose}}</h1>
+        <h6>mg/dL</h6>
+      </div>
+    </div>
+    <div class="card col-md-6">
+      <div class="card-body">
+        <div class="rotate">
+          <i class="fa fa-heartbeat fa-3x"></i>
+        </div>
+        <h6 class="text-uppercase">Last Food Entry</h6>
+        <h6>{{mostrecent?.name}}</h6>
+        <h6>{{mostrecent?.consumptionDate | date: 'MM-dd-yyyy h:mm a'}}</h6>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+      <div class="col-md-6">
+        <h4>Alerts</h4>
+        <div *ngIf="alerts?.length>0" class="list-group pb-3">
+          <a class="list-group-item list-group-item-action" *ngFor="let alertState of alerts">
+            <span>{{ alertState.alert.entryType }} {{ alertState.alert.alertType }} {{ alertState.alert.value }} {{ alertState.alert.units }}</span>
+            <span *ngIf="alertState.state === 'Acceptable Range'" class="badge badge-success pull-right">In Range</span>
+            <span *ngIf="alertState.state === 'Out of Range'" class="badge badge-danger pull-right">Out of Range!</span>
+            <span *ngIf="alertState.state === 'Unknown'" class="badge badge-info pull-right">Unknown</span>
+          </a>
+        </div>
+        <div *ngIf="alerts?.length==0" class="list-group pb-3">No active alerts!</div>
+      </div>
+  
+      <div class="col-md-6">
+        <h4>Goals</h4>
+        <div *ngIf="goals?.length>0" class="list-group pb-3">
+          <a class="list-group-item list-group-item-action" *ngFor="let goalState of goals">
+            <span>{{ goalState.goal.entryType }} - {{goalState.goal.name}} - {{ goalState.goal.goalType | lowercase }} 
+            {{ goalState.goal.value }} {{ goalState.goal.units }} by {{ goalState.goal.date | date: 'MM-dd-yyyy hh:mm a'}}</span>
+            <span *ngIf="goalState.state === 'Unmet'" class="badge badge-warning pull-right">Unmet</span>
+            <span *ngIf="goalState.state === 'Met'" class="badge badge-success pull-right">Met!</span>
+            <span *ngIf="goalState.state === 'Unknown'" class="badge badge-info pull-right">Unknown</span>
+          </a>
+        </div>
+        <div *ngIf="goals?.length==0" class="list-group pb-3">No active goals!</div>
+      </div>
+    </div>
+
+  <div class="row">
+    <div class="card col-md-6">
+      <div class="card-body">
+        <p-chart type="line" [data]="data" [options]="options"></p-chart>
+      </div>
+    </div>
+    <br>
+    <div class="card col-md-6">
+      <div class="card-body">
+        <div *ngIf="foodData[0]!=0">
+          <p-chart type="pie" [data]="piedata" [options]="pieoptions"></p-chart>
+        </div>
+        <div *ngIf="foodData[0]==0">
+          No food entries!
+        </div>
+      </div>
+    </div>
+    <br>
+  </div>
+  <div class="row">
+    <div class="card col-md-12">
+      <div class="card-body">
+        <app-nvd3 [options]="houroptions" [data]="hourdata"></app-nvd3>
+      </div>
+    </div>
+  </div>
+</div>
